@@ -36,38 +36,18 @@ names{GPM} = 'GPM';
 
 %% Scatter plots.
 figure();
-
-ax = subplot(2, 2, 1);
-scatter(ax, data(:,MPG), data(:,HP), '+');
-title(ax, 'HP vs MPG');
-xlabel(ax, 'Miles Per Gallon (MPG)');
-ylabel(ax, 'Horse Power (HP)');
-
-ax = subplot(2, 2, 2);
-scatter(ax, data(:,MPG), data(:,WT), '+');
-title(ax, 'WT vs MPG');
-xlabel(ax, 'Miles Per Gallon (MPG)');
-ylabel(ax, 'Weight (WT)');
-
-ax = subplot(2, 2, 3);
-scatter(ax, data(:,GPM), data(:,HP), '+');
-title(ax, 'HP vs GPM');
-xlabel(ax, 'Gallons Per Mile (GPM)');
-ylabel(ax, 'Horse Power (HP)');
-
-ax = subplot(2, 2, 4);
-scatter(ax, data(:,GPM), data(:,WT), '+');
-title(ax, 'WT vs GPM');
-xlabel(ax, 'Gallons Per Mile (GPM)');
-ylabel(ax, 'Weight (WT)');
-
+plot_variables(subplot(2, 2, 1), HP, MPG);
+plot_variables(subplot(2, 2, 2), WT, MPG);
+plot_variables(subplot(2, 2, 3), HP, GPM);
+plot_variables(subplot(2, 2, 4), WT, GPM);
 
 %% Regression modelling.
-model_names = cell(size(models, 1), 1);
+y_name = cell(size(models, 1), 1);
+X_names = cell(size(models, 1), 1);
 R2 = zeros(size(models, 1), 1);
 R2_adj = zeros(size(models, 1), 1);
 p = zeros(size(models, 1), 1);
-ks_result = zeros(size(models, 1), 1);
+ks_test = zeros(size(models, 1), 1);
 ks_p_value = zeros(size(models, 1), 1);
 e = zeros(size(data, 1), size(models, 1));
 for i = 1:size(models, 1)
@@ -78,8 +58,8 @@ for i = 1:size(models, 1)
     [n, p(i)] = size(X);
     
     % Determine name.
-    model_names{i} = sprintf('%s vs %s',...
-        strjoin(names(X_idx), ', '), names{y_idx});
+    y_name{i}= names{y_idx};
+    X_names{i} = strjoin(names(X_idx), ', ');
     
     % Calculate model.
     b = regress(y, X);
@@ -91,7 +71,7 @@ for i = 1:size(models, 1)
     e_std = (e(:, i) - mean(e(:, i)))/std(e(:, i));
     
     % Test residuals.
-    [ks_result(i), ks_p_value(i)] = kstest(e_std);
+    [ks_test(i), ks_p_value(i)] = kstest(e_std);
     
     % Find R2
     SS_e = sumsqr(e(:, i));
@@ -101,25 +81,44 @@ for i = 1:size(models, 1)
 end
 
 %% Generate results table.
-disp(table(R2, R2_adj, p, ks_result, ks_p_value, 'RowNames', model_names));
+disp(table(y_name, X_names, R2, R2_adj, p, ks_test, ks_p_value));
 
 %% Plot residuals for best and worst models.
-% Evaluate models using R2_adj.
+% Evaluate models using R2_adj and rename best and worst.
 [~, worst_idx] = min(R2_adj);
 worst_idx = worst_idx(1);
+
 [~, best_idx] = max(R2_adj);
 best_idx = best_idx(1);
 
-% Residual plots.
+% Plot residuals for best and worst models.
 figure();
+plot_residuals(subplot(1, 2, 1), worst_idx, 'Worst Regression');
+plot_residuals(subplot(1, 2, 2), best_idx, 'Best Regression');
 
-ax = subplot(1, 2, 1); 
-histogram(e(:, worst_idx), 'Normalization', 'probability');
-title(sprintf('Residuals for %s', model_names{worst_idx}));
-xlabel('Residuals');
+    function plot_variables(ax, X_idx, y_idx)
+    if length(dbstack) > 2
+        return
+    end
+    scatter(ax, data(:,X_idx), data(:,y_idx), '+');
+    ax.FontSize = 18;
+    title(ax,...
+        sprintf('\\bf %s vs %s', names{X_idx}, names{y_idx}),...
+        'Interpreter', 'latex', 'FontSize', 20);
+    xlabel(ax, names{X_idx}, 'Interpreter', 'latex', 'FontSize', 18);
+    ylabel(ax, names{y_idx}, 'Interpreter', 'latex', 'FontSize', 18);
+    end
 
-ax = subplot(1, 2, 2);
-histogram(e(:, best_idx), 'Normalization', 'probability');
-title(sprintf('Residuals for %s', model_names{best_idx}));
-xlabel('Residuals');
+    function plot_residuals(ax, idx, titletxt)
+    if length(dbstack) > 2
+        return
+    end
+    histogram(ax, e(:, idx), 'Normalization', 'probability');
+    title(ax,...
+        sprintf('\\bf %s: %s vs %s', titletxt, X_names{idx}, y_name{idx}),...
+        'Interpreter', 'latex', 'FontSize', 20);
+    xlabel(ax, sprintf('Residual %s', y_name{idx}),...
+        'Interpreter', 'latex', 'FontSize', 18);
+    ylabel(ax, 'Density', 'Interpreter', 'latex', 'FontSize', 18);
+    end
 end
