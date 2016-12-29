@@ -36,20 +36,21 @@ names{GPM} = 'GPM';
 
 %% Scatter plots.
 figure();
-plot_variables(subplot(2, 2, 1), HP, MPG);
-plot_variables(subplot(2, 2, 2), WT, MPG);
-plot_variables(subplot(2, 2, 3), HP, GPM);
-plot_variables(subplot(2, 2, 4), WT, GPM);
+plot_variables(subplot(1, 2, 1), HP, MPG);
+plot_variables(subplot(1, 2, 2), WT, MPG);
+figure();
+plot_variables(subplot(1, 2, 1), HP, GPM);
+plot_variables(subplot(1, 2, 2), WT, GPM);
 
 %% Regression modelling.
-y_name = cell(size(models, 1), 1);
-X_names = cell(size(models, 1), 1);
 R2 = zeros(size(models, 1), 1);
 R2_adj = zeros(size(models, 1), 1);
 p = zeros(size(models, 1), 1);
 ks_test = zeros(size(models, 1), 1);
 ks_p_value = zeros(size(models, 1), 1);
 e = zeros(size(data, 1), size(models, 1));
+y_name = cell(size(models, 1), 1);
+X_names = cell(size(models, 1), 1);
 for i = 1:size(models, 1)
     % Parse model definition.
     [y_idx, X_idx] = models{i, :};
@@ -63,10 +64,10 @@ for i = 1:size(models, 1)
     
     % Calculate model.
     b = regress(y, X);
-    b0 = mean(y) - mean(X)*b;
+    a = mean(y) - mean(X)*b;
     
     % Calculate standardised residuals.
-    yhat = b0 + X*b;
+    yhat = a + X*b;
     e(:, i) = y - yhat;
     e_std = (e(:, i) - mean(e(:, i)))/std(e(:, i));
     
@@ -97,28 +98,29 @@ plot_residuals(subplot(1, 2, 1), worst_idx, 'Worst Regression');
 plot_residuals(subplot(1, 2, 2), best_idx, 'Best Regression');
 
     function plot_variables(ax, X_idx, y_idx)
-    if length(dbstack) > 2
-        return
-    end
+    %%
+    % Make title bold.
+    titletxt = sprintf('%s vs %s', names{X_idx}, names{y_idx});
     scatter(ax, data(:,X_idx), data(:,y_idx), '+');
-    ax.FontSize = 18;
-    title(ax,...
-        sprintf('\\bf %s vs %s', names{X_idx}, names{y_idx}),...
-        'Interpreter', 'latex', 'FontSize', 20);
-    xlabel(ax, names{X_idx}, 'Interpreter', 'latex', 'FontSize', 18);
-    ylabel(ax, names{y_idx}, 'Interpreter', 'latex', 'FontSize', 18);
+    title(ax, titletxt, 'Interpreter', 'latex', 'FontSize', 36);
+    xlabel(ax, names{X_idx}, 'Interpreter', 'latex', 'FontSize', 34);
+    ylabel(ax, names{y_idx}, 'Interpreter', 'latex', 'FontSize', 34);
+    ax.FontSize = 30;
+    ax.TickLabelInterpreter = 'latex';
     end
 
     function plot_residuals(ax, idx, titletxt)
-    if length(dbstack) > 2
-        return
-    end
+    %%
+    % Add second line to title.
+    titletxt = {
+        sprintf('\\makebox[4in][c]{%s}', titletxt)
+        sprintf('\\makebox[4in][c]{%s(%s)}', y_name{idx}, X_names{idx})};
     histogram(ax, e(:, idx), 'Normalization', 'probability');
-    title(ax,...
-        sprintf('\\bf %s: %s vs %s', titletxt, X_names{idx}, y_name{idx}),...
-        'Interpreter', 'latex', 'FontSize', 20);
+    title(ax, titletxt, 'Interpreter', 'latex', 'FontSize', 36);
     xlabel(ax, sprintf('Residual %s', y_name{idx}),...
-        'Interpreter', 'latex', 'FontSize', 18);
-    ylabel(ax, 'Density', 'Interpreter', 'latex', 'FontSize', 18);
+        'Interpreter', 'latex', 'FontSize', 34);
+    ylabel(ax, 'Density', 'Interpreter', 'latex', 'FontSize', 34);
+    ax.FontSize = 30;
+    ax.TickLabelInterpreter = 'latex';
     end
 end

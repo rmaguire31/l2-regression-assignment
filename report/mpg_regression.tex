@@ -4,31 +4,57 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{titling}
+\usepackage{nomencl}
 \usepackage{booktabs}
-
 \usepackage{graphicx}
+\usepackage[style=ieee,backend=bibtex]{biblatex}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage{varioref}
+\usepackage{float}
+
+% Path to images.
 \graphicspath{{img/}}
 
-\usepackage{nomencl}
+% Setup nomenclature.
 \makenomenclature
-\usepackage{etoolbox}
-\renewcommand\nomgroup[1]{%
-    \item[\bfseries
-    \ifstrequal{#1}{V}{Variables}{
-    \ifstrequal{#1}{S}{Statistics}{
-    }}]}
+\newlength{\nomtitlesep}
+\setlength{\nomtitlesep}{\nomitemsep}
+\setlength{\nomitemsep}{-\parsep}
+\renewcommand{\nomgroup}[1]{%
+    \itemsep\nomtitlesep
+    \ifthenelse{\equal{#1}{V}}{\item[\textbf{Variables}]}{}
+    \itemsep\nomitemsep
+}
 
+% Setup bibiliography.
+\addbibresource{bibliography}
 
-\usepackage[style=ieee,backend=bibtex]{biblatex}
-
-\usepackage{titling}
-
+% Document info.
 \author{Z0966990}
 \title{Regression Assignment}
 \date{\today}
 
+% Header and footer.
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Macros
+\newcommand{\MPG}{\textsc{mpg}\xspace}
+\newcommand{\GPM}{\textsc{gpm}\xspace}
+\newcommand{\VOL}{\textsc{vol}\xspace}
+\newcommand{\HP}{\textsc{hp}\xspace}
+\newcommand{\SP}{\textsc{sp}\xspace}
+\newcommand{\WT}{\textsc{wt}\xspace}
+
 \begin{document}
-	
+    
 % Title page.
 \begin{titlepage}
     \centering
@@ -43,74 +69,143 @@
 \end{titlepage}
 
 % Nomenclature.
-\nomenclature[V]{\textsc{mpg}}{Fuel consumption in Miles Per Gallon.}
-\nomenclature[V]{\textsc{gpm}}{Fuel consumption in Gallons Per Mile.}
-\nomenclature[V]{\textsc{hp}}{Horsepower.}
-\nomenclature[V]{\textsc{sp}}{Maximum speed in miles per hour.}
-\nomenclature[V]{\textsc{wt}}{Weight in pounds.}
-\nomenclature[V]{\textsc{vol}}{Cab volume.}
-\nomenclature[S]{$y$}{Explained variable.}
-\nomenclature[S]{$X$}{Predictor variables.}
-\nomenclature[S]{$e$}{Residuals.}
-\nomenclature[S]{$p$}{Number of predictor variables.}
-\nomenclature[S]{$R^2$}{Coefficient of determinability.}
-\nomenclature[S]{$R^2_{adj}$}{Adjusted coefficient of determinability.}
+\nomenclature[0]{$R^2$}{Coefficient of determinability.}
+\nomenclature[1]{$R^2_{adj}$}{Adjusted coefficient of determinability.}
+\nomenclature[2]{$p$}{Number of predictor variables.}
+\nomenclature[3]{$x$}{Predictor variables.}
+\nomenclature[4]{$y$}{Explained variable.}
+\nomenclature[5]{$\hat{y}$}{Estimate of explained variable.}
+\nomenclature[6]{$\beta$}{Regression coefficents.}
+\nomenclature[7]{$\hat{\beta}$}{Estimates of regression coefficents.}
+\nomenclature[8]{$\epsilon$}{Random error.}
+
+\nomenclature[V]{\MPG}{Fuel consumption in miles per gallon.}
+\nomenclature[V]{\GPM}{Fuel consumption in gallons per mile.}
+\nomenclature[V]{\HP}{Power output in horsepower.}
+\nomenclature[V]{\SP}{Top speed in miles per hour.}
+\nomenclature[V]{\WT}{Weight in pounds.}
+\nomenclature[V]{\VOL}{Cab volume in cubic feet.}
 \printnomenclature
 
 % Main matter.
 \section{Introduction}
 
+Least squares regression was used to find the best linear model for predicting 
+fuel consumption based on the properties of existing car models.
+
+The dataset used to find the model came from a 1991 annual report on fuel 
+economy for the US Environmental Protection Agency \cite{heavenrichlight}. The 
+dataset specified the fuel consumption (\MPG) of 82 models of light vehicles 
+alongside their power output (\HP), top speed (\SP), cab volume (\VOL) and 
+weight (\WT). The models evaluated explained fuel consumption or its reciprocal 
+(\GPM) as a function of the other four predictors specified in the dataset.
+
+The scatter plots in Figure~\vref{fig:Data} indicated an inverse relationship 
+between the explained variable \MPG and predictors \HP and \WT. For the same 
+predictors the variable \GPM demonstrated a linear relationship so was a better 
+choice for the linear regression model used.
+
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.45\textwidth]{Data}
-    \caption{Scatter plots of variables in dataset.}
+    \includegraphics[width=0.42\textwidth]{MPG}
+    \includegraphics[width=0.42\textwidth]{GPM}
+    \caption{Scatter plots of variables in the dataset.}
     \label{fig:Data}
 \end{figure}
 
-\section{Regression Results}
+\section{Regression Modelling}
 
-\begin{table*}[]
+Before regression modelling could be performed, the following underlying 
+conceptual multivariate linear model was chosen:
+
+\begin{equation}
+    y = \beta_0 + \beta_1 x_1 + ... + \beta_p x_p + \epsilon
+    \label{eq:Model}
+\end{equation}
+
+The fuel economy dataset was used to find an estimate of this model, of the 
+following form:
+
+\begin{equation}
+    \hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_p x_p
+    \label{eq:Estimate}
+\end{equation}
+
+Where $\hat{\beta}$ values are estimates of the regression coefficients chosen 
+such that the prediction errors in the estimated model for the 82 makes of car 
+in the dataset have the smallest variance. The residual errors are due to 
+errors in the estimation of of the regression coefficients and fundamental 
+variation in the underlying data, $\epsilon$.
+
+Different combinations of predictors \VOL, \HP, \SP and \WT were used to find 
+models for predicting explained variables \MPG and \GPM.
+
+These models were evaluated using the coefficient of determinability $R^2$ 
+which describes what proportion of the variability in the residuals were due to 
+the errors in estimation of the regression coefficients, rather than the 
+variability in $\epsilon$.
+
+$R^2_{adj}$ is the adjusted coefficient of determinability and additionally 
+accounts for the degrees of freedom introduced by using multiple predictors. As 
+the number of predictors $p$ increase, models become better at estimating the 
+observed data, but do not necessarily generalise better to new data.
+
+The performance of each combination of predictors and explained variables 
+modelled are listed in Table~\vref{table:Regression}. The $R^2_{adj}$ values 
+show that the best model explained the \GPM as a function of \VOL, \HP, \SP and 
+\WT with an adjusted coefficient of determinability of 0.99116. Similarly the 
+worst model explained the \MPG as a function of \HP with an adjusted 
+coefficient of determinability of 0.66054.
+
+\begin{table*}
     \centering
     \begin{tabular}{lllllll}
-        \toprule
-        $y$ & $X$ & $p$ & $R^2$ & $R^2_{adj}$ & K-S Test & K-S $p$-value \\
-        \midrule
-        \textsc{mpg} & \textsc{vol, hp, sp, wt} & $4$ &
-        $0.98112$ & $0.98040$ & Fail & $0.023541$ \\
-        \textsc{mpg} & \textsc{hp, wt} & $2$ &
-        $0.81123$ & $0.80887$ & Pass & $0.90678$ \\
-        \textsc{mpg} & \textsc{sp, wt} & $2$ &
-        $0.92227$ & $0.92129$ & Fail & $0.024076$ \\
-        \textsc{mpg} & \textsc{hp} & $1$ &
-        $0.66054$ & $0.66054$ & Pass & $0.12536$ \\
-        \textsc{mpg} & \textsc{sp} & $1$ &
-        $0.86276$ & $0.86276$ & Pass & $0.57772$ \\
-        \textsc{mpg} & \textsc{wt} & $1$ &
-        $0.76075$ & $0.76075$ & Pass & $0.67005$ \\
-        \textsc{gpm} & \textsc{vol, hp, sp, wt} & $4$ &
-        $0.99149$ & $0.99116$ & Pass & $0.12756$ \\
-        \textsc{gpm} & \textsc{hp, wt} & $2$ &
-        $0.99127$ & $0.99116$ & Pass & $0.086205$ \\
-        \textsc{gpm} & \textsc{sp, wt} & $2$ &
-        $0.98692$ & $0.98676$ & Fail & $0.0049658$ \\
-        \textsc{gpm} & \textsc{hp} & $1$ &
-        $0.95537$ & $0.95537$ & Fail & $0.00011794$ \\
-        \textsc{gpm} & \textsc{sp} & $1$ &
-        $0.94487$ & $0.94487$ & Pass & $0.086159$ \\
-        \textsc{gpm} & \textsc{wt} & $1$ &
-        $0.98678$ & $0.98678$ & Fail & $0.00025812$ \\
-        \bottomrule
+    \toprule
+    $y$ & $x_1, x_2, ..., x_p$ & $p$ & $R^2$ & $R^2_{adj}$ & K-S Test & K-S 
+    $p$-value \\
+    \midrule
+    \MPG & \VOL, \HP, \SP, \WT & 4 & 0.98112 & 0.98040 & Fail & 0.023541 \\
+    \MPG & \HP, \WT            & 2 & 0.81123 & 0.80887 & Pass & 0.90678 \\
+    \MPG & \SP, \WT            & 2 & 0.92227 & 0.92129 & Fail & 0.024076 \\
+    \MPG & \HP                 & 1 & 0.66054 & 0.66054 & Pass & 0.12536 \\
+    \MPG & \SP                 & 1 & 0.86276 & 0.86276 & Pass & 0.57772 \\
+    \MPG & \WT                 & 1 & 0.76075 & 0.76075 & Pass & 0.67005 \\
+    \GPM & \VOL, \HP, \SP, \WT & 4 & 0.99149 & 0.99116 & Pass & 0.12756 \\
+    \GPM & \HP, \WT            & 2 & 0.99127 & 0.99116 & Pass & 0.086205 \\
+    \GPM & \SP, \WT            & 2 & 0.98692 & 0.98676 & Fail & 0.0049658 \\
+    \GPM & \HP                 & 1 & 0.95537 & 0.95537 & Fail & 0.00011794 \\
+    \GPM & \SP                 & 1 & 0.94487 & 0.94487 & Pass & 0.086159 \\
+    \GPM & \WT                 & 1 & 0.98678 & 0.98678 & Fail & 0.00025812 \\
+    \bottomrule
     \end{tabular}
     \caption{Comparison of performance of models with different variables.}
-    \label{table:reg}
+    \label{table:Regression}
 \end{table*}
     
-\section{Analysis}
+\section{Residual Analysis}
+
+One way to envisage regression is to imagine a $p+1$ dimensional space with 
+an axis for each variable. The linear model is a hyperplane which maps values 
+for the prediction variables onto a value for the explained variable. The 
+observed data for good regression models is normally distributed about that 
+hyperplane with a small constant variance with respect to the predictor 
+variables.
+
+The Kolmogorov-Smirnov (K-S) test can be used to evaluate the normality of a 
+dataset by standardising the dataset then performing a one sample test against 
+the standard normal distribution. At the 5\% significance level, when the 
+$p$-value is greater than 0.05 it becomes sufficiently unlikely that the 
+dataset differs from the normal distribution.
+
+In analysis, the K-S test was performed on the standardised residuals for the 
+models in Table~\ref{table:Regression} and those models with sufficiently 
+normal residuals at the 5\% significance level were marked with a pass 
+alongside the $p$-value obtained.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.45\textwidth]{Residuals}
-    \caption{Residuals for best and worst $R^2_{adj}$ values.}
+    \includegraphics[width=0.42\textwidth]{Residuals}
+    \caption{Residuals for regressions with worst and best $R^2_{adj}$.}
     \label{fig:Residuals}
 \end{figure}
 
