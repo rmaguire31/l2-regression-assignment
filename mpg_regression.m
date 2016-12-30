@@ -43,8 +43,8 @@ plot_variables(subplot(1, 2, 1), HP, GPM);
 plot_variables(subplot(1, 2, 2), WT, GPM);
 
 %% Regression modelling.
-R2 = zeros(size(models, 1), 1);
-R2_adj = zeros(size(models, 1), 1);
+Rsq = zeros(size(models, 1), 1);
+adj_Rsq = zeros(size(models, 1), 1);
 p = zeros(size(models, 1), 1);
 ks_test = zeros(size(models, 1), 1);
 ks_p_value = zeros(size(models, 1), 1);
@@ -62,7 +62,7 @@ for i = 1:size(models, 1)
     y_name{i} = names{y_idx};
     X_names{i} = strjoin(names(X_idx), ', ');
     
-    % Perform regression, saving residuals and R2 which is first value in
+    % Perform regression, saving residuals and Rsq which is first value in
     % stats.
     [~, ~, e(:, i), ~, stats] = regress(y, X);
     
@@ -72,21 +72,21 @@ for i = 1:size(models, 1)
     % Test residuals.
     [ks_test(i), ks_p_value(i)] = kstest(e_std);
     
-    % Save R2 and calculate adjusted value using the formula for R2,
+    % Save Rsq and calculate adjusted value using the formula for Rsq,
     % rearranged to minimise loss of precision.
-    R2(i) = stats(1);
-    R2_adj(i) = 1 - (1 - R2(i)) * (n - 1) / (n - p(i));
+    Rsq(i) = stats(1);
+    adj_Rsq(i) = 1 - (1 - Rsq(i)) * (n - 1) / (n - p(i));
 end
 
 %% Generate results table.
-disp(table(y_name, X_names, p, R2, R2_adj, ks_test, ks_p_value));
+disp(table(y_name, X_names, p, Rsq, adj_Rsq, ks_test, ks_p_value));
 
 %% Plot residuals for best and worst models.
-% Evaluate models using R2_adj and rename best and worst.
-[~, worst_idx] = min(R2_adj);
+% Evaluate models using adj_Rsq and rename best and worst.
+[~, worst_idx] = min(adj_Rsq);
 worst_idx = worst_idx(1);
 
-[~, best_idx] = max(R2_adj);
+[~, best_idx] = max(adj_Rsq);
 best_idx = best_idx(1);
 
 % Plot residuals for best and worst models.
