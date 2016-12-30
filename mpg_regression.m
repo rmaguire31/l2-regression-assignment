@@ -52,37 +52,34 @@ e = zeros(size(data, 1), size(models, 1));
 y_name = cell(size(models, 1), 1);
 X_names = cell(size(models, 1), 1);
 for i = 1:size(models, 1)
-    % Parse model definition.
+    % Parse model definition, adding a column of ones to X for regress().
     [y_idx, X_idx] = models{i, :};
     y = data(:, y_idx);
-    X = data(:, X_idx);
+    X = [ones(size(y)), data(:, X_idx)];
     [n, p(i)] = size(X);
     
-    % Determine name.
-    y_name{i}= names{y_idx};
+    % Determine names.
+    y_name{i} = names{y_idx};
     X_names{i} = strjoin(names(X_idx), ', ');
     
-    % Calculate model.
-    b = regress(y, X);
-    a = mean(y) - mean(X)*b;
+    % Perform regression, saving residuals and R2 which is first value in
+    % stats.
+    [~, ~, e(:, i), ~, stats] = regress(y, X);
     
     % Calculate standardised residuals.
-    yhat = a + X*b;
-    e(:, i) = y - yhat;
     e_std = (e(:, i) - mean(e(:, i)))/std(e(:, i));
     
     % Test residuals.
     [ks_test(i), ks_p_value(i)] = kstest(e_std);
     
-    % Find R2
-    SS_e = sumsqr(e(:, i));
-    SS_T = sumsqr(y);
-    R2(i) = 1 - SS_e/SS_T;
-    R2_adj(i) = 1 - SS_e*(n-1)/(SS_T*(n-p(i)));
+    % Save R2 and calculate adjusted value using the formula for R2,
+    % rearranged to minimise loss of precision.
+    R2(i) = stats(1);
+    R2_adj(i) = 1 - (1 - R2(i)) * (n - 1) / (n - p(i));
 end
 
 %% Generate results table.
-disp(table(y_name, X_names, R2, R2_adj, p, ks_test, ks_p_value));
+disp(table(y_name, X_names, p, R2, R2_adj, ks_test, ks_p_value));
 
 %% Plot residuals for best and worst models.
 % Evaluate models using R2_adj and rename best and worst.
@@ -99,7 +96,7 @@ plot_residuals(subplot(1, 2, 2), best_idx, 'Best Regression');
 
     function plot_variables(ax, X_idx, y_idx)
     %%
-    % Make title bold.
+    % Generate title.
     titletxt = sprintf('%s vs %s', names{X_idx}, names{y_idx});
     scatter(ax, data(:,X_idx), data(:,y_idx), '+');
     title(ax, titletxt, 'Interpreter', 'latex', 'FontSize', 36);

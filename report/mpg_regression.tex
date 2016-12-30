@@ -12,7 +12,12 @@
 \usepackage{xspace}
 \usepackage{fancyhdr}
 \usepackage{varioref}
-\usepackage{float}
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
+% activate={true,nocompatibility} - activate protrusion and expansion
+% final - enable microtype; use "draft" to disable
+% tracking=true, kerning=true, spacing=true - activate these techniques
+% factor=1100 - add 10% to the protrusion amount (default is 1000)
+% stretch=10, shrink=10 - reduce stretchability/shrinkability (default is 20/20)
 
 % Path to images.
 \graphicspath{{img/}}
@@ -71,7 +76,7 @@
 % Nomenclature.
 \nomenclature[0]{$R^2$}{Coefficient of determinability.}
 \nomenclature[1]{$R^2_{adj}$}{Adjusted coefficient of determinability.}
-\nomenclature[2]{$p$}{Number of predictor variables.}
+\nomenclature[2]{$p$}{Number of parameters.}
 \nomenclature[3]{$x$}{Predictor variables.}
 \nomenclature[4]{$y$}{Explained variable.}
 \nomenclature[5]{$\hat{y}$}{Estimate of explained variable.}
@@ -102,8 +107,8 @@ weight (\WT). The models evaluated explained fuel consumption or its reciprocal
 
 The scatter plots in Figure~\vref{fig:Data} indicated an inverse relationship 
 between the explained variable \MPG and predictors \HP and \WT. For the same 
-predictors the variable \GPM demonstrated a linear relationship so was a better 
-choice for the linear regression model used.
+predictors, the variable \GPM suggested a linear relationship so was a 
+better choice for the linear regression model used.
 
 \begin{figure}[h]
     \centering
@@ -119,7 +124,7 @@ Before regression modelling could be performed, the following underlying
 conceptual multivariate linear model was chosen:
 
 \begin{equation}
-    y = \beta_0 + \beta_1 x_1 + ... + \beta_p x_p + \epsilon
+    y = \beta_0 + \beta_1 x_1 + ... + \beta_{p-1}x_{p-1} + \epsilon
     \label{eq:Model}
 \end{equation}
 
@@ -127,55 +132,53 @@ The fuel economy dataset was used to find an estimate of this model, of the
 following form:
 
 \begin{equation}
-    \hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_p x_p
+    \hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_{p-1}x_{p-1}
     \label{eq:Estimate}
 \end{equation}
 
 Where $\hat{\beta}$ values are estimates of the regression coefficients chosen 
-such that the prediction errors in the estimated model for the 82 makes of car 
-in the dataset have the smallest variance. The residual errors are due to 
-errors in the estimation of of the regression coefficients and fundamental 
-variation in the underlying data, $\epsilon$.
+such that the prediction errors for the 82 makes of car in the dataset have the 
+minimum variance. These residual errors are due to errors in the estimation of 
+the regression coefficients and variation in the underlying data, $\epsilon$.
 
 Different combinations of predictors \VOL, \HP, \SP and \WT were used to find 
 models for predicting explained variables \MPG and \GPM.
 
-These models were evaluated using the coefficient of determinability $R^2$ 
-which describes what proportion of the variability in the residuals were due to 
-the errors in estimation of the regression coefficients, rather than the 
-variability in $\epsilon$.
+These models were evaluated using the $R^2$ metric which describes what  
+proportion of the variability in the residuals were due to the errors in 
+estimating the regression coefficients, rather than variability in 
+observations---$\epsilon$.
 
-$R^2_{adj}$ is the adjusted coefficient of determinability and additionally 
-accounts for the degrees of freedom introduced by using multiple predictors. As 
-the number of predictors $p$ increase, models become better at estimating the 
-observed data, but do not necessarily generalise better to new data.
+$R^2_{adj}$ additionally accounts for the additional degrees of freedom 
+introduced by using multiple predictors. As the number of parameters increase, 
+models become better at estimating the observed data by chance. This metric
+reflects whether improvements are statistically significant and will generalise 
+to new data.
 
 The performance of each combination of predictors and explained variables 
 modelled are listed in Table~\vref{table:Regression}. The $R^2_{adj}$ values 
-show that the best model explained the \GPM as a function of \VOL, \HP, \SP and 
-\WT with an adjusted coefficient of determinability of 0.99116. Similarly the 
-worst model explained the \MPG as a function of \HP with an adjusted 
-coefficient of determinability of 0.66054.
+show that the best model explained \GPM as a function of \VOL, \HP, \SP and 
+\WT and the worst model explained \MPG as a function of \SP.
 
 \begin{table*}
     \centering
     \begin{tabular}{lllllll}
     \toprule
-    $y$ & $x_1, x_2, ..., x_p$ & $p$ & $R^2$ & $R^2_{adj}$ & K-S Test & K-S 
+    $y$ & $x_1, x_2, ..., x_{p-1}$ & $p$ & $R^2$ & $R^2_{adj}$ & K-S Test & K-S 
     $p$-value \\
     \midrule
-    \MPG & \VOL, \HP, \SP, \WT & 4 & 0.98112 & 0.98040 & Fail & 0.023541 \\
-    \MPG & \HP, \WT            & 2 & 0.81123 & 0.80887 & Pass & 0.90678 \\
-    \MPG & \SP, \WT            & 2 & 0.92227 & 0.92129 & Fail & 0.024076 \\
-    \MPG & \HP                 & 1 & 0.66054 & 0.66054 & Pass & 0.12536 \\
-    \MPG & \SP                 & 1 & 0.86276 & 0.86276 & Pass & 0.57772 \\
-    \MPG & \WT                 & 1 & 0.76075 & 0.76075 & Pass & 0.67005 \\
-    \GPM & \VOL, \HP, \SP, \WT & 4 & 0.99149 & 0.99116 & Pass & 0.12756 \\
-    \GPM & \HP, \WT            & 2 & 0.99127 & 0.99116 & Pass & 0.086205 \\
-    \GPM & \SP, \WT            & 2 & 0.98692 & 0.98676 & Fail & 0.0049658 \\
-    \GPM & \HP                 & 1 & 0.95537 & 0.95537 & Fail & 0.00011794 \\
-    \GPM & \SP                 & 1 & 0.94487 & 0.94487 & Pass & 0.086159 \\
-    \GPM & \WT                 & 1 & 0.98678 & 0.98678 & Fail & 0.00025812 \\
+    \MPG & \VOL, \HP, \SP, \WT & 5 & 0.87328 & 0.86670 & Pass & 0.51469 \\
+    \MPG & \HP, \WT            & 3 & 0.82354 & 0.81908 & Fail & 0.011707 \\
+    \MPG & \SP, \WT            & 3 & 0.82941 & 0.82510 & Fail & 0.018439 \\
+    \MPG & \HP                 & 2 & 0.62387 & 0.61917 & Pass & 0.10995 \\
+    \MPG & \SP                 & 2 & 0.47396 & 0.46738 & Pass & 0.41495 \\
+    \MPG & \WT                 & 2 & 0.81918 & 0.81692 & Fail & 0.00088302 \\
+    \GPM & \VOL, \HP, \SP, \WT & 5 & 0.91787 & 0.91361 & Pass & 0.075021 \\
+    \GPM & \HP, \WT            & 3 & 0.91180 & 0.90957 & Pass & 0.11743 \\
+    \GPM & \SP, \WT            & 3 & 0.90678 & 0.90442 & Fail & 0.038707 \\
+    \GPM & \HP                 & 2 & 0.77135 & 0.76849 & Pass & 0.26418 \\
+    \GPM & \SP                 & 2 & 0.56930 & 0.56391 & Pass & 0.46792 \\
+    \GPM & \WT                 & 2 & 0.88116 & 0.87967 & Fail & 0.039028 \\
     \bottomrule
     \end{tabular}
     \caption{Comparison of performance of models with different variables.}
@@ -184,7 +187,7 @@ coefficient of determinability of 0.66054.
     
 \section{Residual Analysis}
 
-One way to envisage regression is to imagine a $p+1$ dimensional space with 
+One way to envisage regression is to imagine a $p$ dimensional space with 
 an axis for each variable. The linear model is a hyperplane which maps values 
 for the prediction variables onto a value for the explained variable. The 
 observed data for good regression models is normally distributed about that 
@@ -200,7 +203,8 @@ dataset differs from the normal distribution.
 In analysis, the K-S test was performed on the standardised residuals for the 
 models in Table~\ref{table:Regression} and those models with sufficiently 
 normal residuals at the 5\% significance level were marked with a pass 
-alongside the $p$-value obtained.
+alongside the $p$-value obtained. Normally distributed residuals suggest the 
+observed data is normally distributed either side of the regression model.
 
 \begin{figure}[h]
     \centering
