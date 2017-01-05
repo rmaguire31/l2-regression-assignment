@@ -7,6 +7,7 @@
 \usepackage{titling}
 \usepackage{nomencl}
 \usepackage{booktabs}
+\usepackage[font={footnotesize}]{caption}
 \usepackage{graphicx}
 \usepackage[style=ieee,backend=bibtex]{biblatex}
 \usepackage{xspace}
@@ -18,6 +19,14 @@
 % tracking=true, kerning=true, spacing=true - activate these techniques
 % factor=1100 - add 10% to the protrusion amount (default is 1000)
 % stretch=10, shrink=10 - reduce stretchability/shrinkability (default is 20/20)
+
+% Reduce tracking around small caps to 40%
+\SetTracking{encoding={*}, shape=sc}{40}
+
+% Document info.
+\author{Z0966990}
+\title{Regression Assignment}
+\date{\today}
 
 % Path to images.
 \graphicspath{{img/}}
@@ -35,11 +44,6 @@
 
 % Setup bibiliography.
 \addbibresource{bibliography}
-
-% Document info.
-\author{Z0966990}
-\title{Regression Assignment}
-\date{\today}
 
 % Header and footer.
 \pagestyle{fancy}
@@ -75,7 +79,7 @@
 
 % Nomenclature.
 \nomenclature[0]{$R^2$}{Coefficient of determinability.}
-\nomenclature[1]{$R^2_{adj}$}{Adjusted coefficient of determinability.}
+\nomenclature[1]{$R_{adj}^2$}{Adjusted coefficient of determinability.}
 \nomenclature[2]{$p$}{Number of parameters.}
 \nomenclature[3]{$x$}{Predictor variables.}
 \nomenclature[4]{$y$}{Explained variable.}
@@ -139,7 +143,7 @@ following form:
 Where $\hat{\beta}$ values are estimates of the regression coefficients chosen 
 such that the prediction errors for the 82 makes of car in the dataset have the 
 minimum variance. These residual errors are due to errors in the estimation of 
-the regression coefficients and variation in the underlying data, $\epsilon$.
+the regression coefficients and random error in the conceptual model.
 
 Different combinations of predictors \VOL, \HP, \SP and \WT were used to find 
 models for predicting explained variables \MPG and \GPM.
@@ -147,45 +151,44 @@ models for predicting explained variables \MPG and \GPM.
 These models were evaluated using the $R^2$ metric which describes what  
 proportion of the variability in the residuals were due to the errors in 
 estimating the regression coefficients, rather than variability in 
-observations---$\epsilon$.
+observations---represented by $\epsilon$ in Equation~\vref{eq:Model}.
 
-$R^2_{adj}$ additionally accounts for the additional degrees of freedom 
-introduced by using multiple predictors. As the number of parameters increase, 
-models become better at estimating the observed data by chance. This metric
-reflects whether improvements are statistically significant and will generalise 
-to new data.
+$R_{adj}^2$ additionally accounts for the degrees of freedom introduced by 
+using multiple predictors. As the number of parameters increase, models become 
+better at estimating the observed data by chance. This metric reflects whether 
+improvements are statistically significant and will generalise to new data.
 
 The performance of each combination of predictors and explained variables 
-modelled are listed in Table~\vref{table:Regression}. The $R^2_{adj}$ values 
+modelled are listed in Table~\vref{table:Regression}. The $R_{adj}^2$ values 
 show that the best model explained \GPM as a function of \VOL, \HP, \SP and 
 \WT and the worst model explained \MPG as a function of \SP.
 
 \begin{table*}
     \centering
     \begin{tabular}{lllllll}
-    \toprule
-    $y$ & $x_1, x_2, ..., x_{p-1}$ & $p$ & $R^2$ & $R^2_{adj}$ & K-S Test & K-S 
-    $p$-value \\
-    \midrule
-    \MPG & \VOL, \HP, \SP, \WT & 5 & 0.87328 & 0.86670 & Pass & 0.51469 \\
-    \MPG & \HP, \WT            & 3 & 0.82354 & 0.81908 & Fail & 0.011707 \\
-    \MPG & \SP, \WT            & 3 & 0.82941 & 0.82510 & Fail & 0.018439 \\
-    \MPG & \HP                 & 2 & 0.62387 & 0.61917 & Pass & 0.10995 \\
-    \MPG & \SP                 & 2 & 0.47396 & 0.46738 & Pass & 0.41495 \\
-    \MPG & \WT                 & 2 & 0.81918 & 0.81692 & Fail & 0.00088302 \\
-    \GPM & \VOL, \HP, \SP, \WT & 5 & 0.91787 & 0.91361 & Pass & 0.075021 \\
-    \GPM & \HP, \WT            & 3 & 0.91180 & 0.90957 & Pass & 0.11743 \\
-    \GPM & \SP, \WT            & 3 & 0.90678 & 0.90442 & Fail & 0.038707 \\
-    \GPM & \HP                 & 2 & 0.77135 & 0.76849 & Pass & 0.26418 \\
-    \GPM & \SP                 & 2 & 0.56930 & 0.56391 & Pass & 0.46792 \\
-    \GPM & \WT                 & 2 & 0.88116 & 0.87967 & Fail & 0.039028 \\
-    \bottomrule
+        \toprule
+        $y$ & $x_1, x_2, ..., x_{p-1}$ & $p$ & $R^2$ & $R_{adj}^2$ & K-S Test & 
+        K-S $p$-value \\
+        \midrule
+        \MPG & \VOL, \HP, \SP, \WT & 5 & 0.87328 & 0.86670 & Pass & 0.51469 \\
+        \MPG & \HP, \WT            & 3 & 0.82354 & 0.81908 & Fail & 0.011707 \\
+        \MPG & \SP, \WT            & 3 & 0.82941 & 0.82510 & Fail & 0.018439 \\
+        \MPG & \HP                 & 2 & 0.62387 & 0.61917 & Pass & 0.10995 \\
+        \MPG & \SP                 & 2 & 0.47396 & 0.46738 & Pass & 0.41495 \\
+        \MPG & \WT                 & 2 & 0.81918 & 0.81692 & Fail & 0.00088302\\
+        \GPM & \VOL, \HP, \SP, \WT & 5 & 0.91787 & 0.91361 & Pass & 0.075021 \\
+        \GPM & \HP, \WT            & 3 & 0.91180 & 0.90957 & Pass & 0.11743 \\
+        \GPM & \SP, \WT            & 3 & 0.90678 & 0.90442 & Fail & 0.038707 \\
+        \GPM & \HP                 & 2 & 0.77135 & 0.76849 & Pass & 0.26418 \\
+        \GPM & \SP                 & 2 & 0.56930 & 0.56391 & Pass & 0.46792 \\
+        \GPM & \WT                 & 2 & 0.88116 & 0.87967 & Fail & 0.039028 \\
+        \bottomrule
     \end{tabular}
     \caption{Comparison of performance of models with different variables.}
     \label{table:Regression}
 \end{table*}
     
-\section{Residual Analysis}
+\section{Residuals}
 
 One way to envisage regression is to imagine a $p$ dimensional space with 
 an axis for each variable. The linear model is a hyperplane which maps values 
@@ -195,27 +198,40 @@ hyperplane with a small constant variance with respect to the predictor
 variables.
 
 The Kolmogorov-Smirnov (K-S) test can be used to evaluate the normality of a 
-dataset by standardising the dataset then performing a one sample test against 
-the standard normal distribution. At the 5\% significance level, when the 
+sample by standardising the sample then performing a one tailed test against  
+the standard normal distribution. At the 5\% significance level, when the  
 $p$-value is greater than 0.05 it becomes sufficiently unlikely that the 
 dataset differs from the normal distribution.
 
 In analysis, the K-S test was performed on the standardised residuals for the 
-models in Table~\ref{table:Regression} and those models with sufficiently 
+models in Table~\vref{table:Regression} and those models with sufficiently 
 normal residuals at the 5\% significance level were marked with a pass 
 alongside the $p$-value obtained. Normally distributed residuals suggest the 
 observed data is normally distributed either side of the regression model.
 
+The best performing regression model with an $R_{adj}^2$ value of 0.91361 had 
+normally distributed residuals at a significance level of 7.5\%. 
+Figure~\vref{fig:Residuals} shows the distribution of those residuals alongside 
+the residuals of the worst performing regression model---which which were 
+normally distributed at a significance level of 41\% despite only achieving an 
+$R_{adj}^2$ value of 0.46738.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.42\textwidth]{Residuals}
-    \caption{Residuals for regressions with worst and best $R^2_{adj}$.}
+    \caption{Residuals for regressions with worst and best $R_{adj}^2$.}
     \label{fig:Residuals}
 \end{figure}
+
+The poorer performance of the more normal distribution could be explained by 
+the greater spread in residuals. The 1arge variance in the residuals suggests 
+the model is not a very accurate predictor of fuel consumption.
 
 % References.
 \printbibliography
 
 \clearpage
+
+% Appendices.
 
 \end{document}
