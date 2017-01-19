@@ -98,6 +98,7 @@ plot_residuals(subplot(1, 2, 2), best_idx, 'Best Regression');
     
     % Generate title.
     titletxt = sprintf('%s vs %s', names{x_idx}, names{y_idx});
+    
     scatter(ax, data(:,x_idx), data(:,y_idx), '+');
     title(ax, titletxt);
     xlabel(ax, names{x_idx});
@@ -108,8 +109,11 @@ plot_residuals(subplot(1, 2, 2), best_idx, 'Best Regression');
     %% PLOT_RESIDUALS Plot residual distribution for model idx.
     
     % Add second line to title.
-    titletxt = {titletxt
-        sprintf('%s(%s)', y_name{idx}, X_names{idx})};
+    titletxt = {
+        titletxt
+        sprintf('%s(%s)', y_name{idx}, X_names{idx})
+        };
+    
     histogram(ax, e(:, idx), 'Normalization', 'probability');
     title(ax, titletxt);
     xlabel(ax, sprintf('Residual %s', y_name{idx}));
