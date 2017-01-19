@@ -35,12 +35,11 @@ data(:,GPM) = 1./data(:,MPG);
 names{GPM} = 'GPM';
 
 %% Scatter plots.
-figure('OuterPosition', get(0, 'ScreenSize')*0.9);
-plot_variables(subplot(1, 2, 1), HP, MPG);
-plot_variables(subplot(1, 2, 2), WT, MPG);
-figure('OuterPosition', get(0, 'ScreenSize')*0.9);
-plot_variables(subplot(1, 2, 1), HP, GPM);
-plot_variables(subplot(1, 2, 2), WT, GPM);
+figure();
+plot_variables(subplot(2, 2, 1), HP, MPG);
+plot_variables(subplot(2, 2, 2), WT, MPG);
+plot_variables(subplot(2, 2, 3), HP, GPM);
+plot_variables(subplot(2, 2, 4), WT, GPM);
 
 %% Regression modelling.
 Rsq = zeros(size(models, 1), 1);
@@ -90,34 +89,30 @@ worst_idx = worst_idx(1);
 best_idx = best_idx(1);
 
 % Plot residuals for best and worst models.
-figure('OuterPosition', get(0, 'ScreenSize')*0.9);
+figure();
 plot_residuals(subplot(1, 2, 1), worst_idx, 'Worst Regression');
 plot_residuals(subplot(1, 2, 2), best_idx, 'Best Regression');
 
     function plot_variables(ax, x_idx, y_idx)
     %% PLOT_VARIABLES Plot variable y_idx against variable x_idx.
+    
     % Generate title.
     titletxt = sprintf('%s vs %s', names{x_idx}, names{y_idx});
     scatter(ax, data(:,x_idx), data(:,y_idx), '+');
-    ax.FontSize = 30;
-    ax.TickLabelInterpreter = 'latex';
-    title(ax, titletxt, 'Interpreter', 'latex', 'FontSize', 36);
-    xlabel(ax, names{x_idx}, 'Interpreter', 'latex', 'FontSize', 34);
-    ylabel(ax, names{y_idx}, 'Interpreter', 'latex', 'FontSize', 34);
+    title(ax, titletxt);
+    xlabel(ax, names{x_idx});
+    ylabel(ax, names{y_idx});
     end
 
     function plot_residuals(ax, idx, titletxt)
     %% PLOT_RESIDUALS Plot residual distribution for model idx.
-    % Add second line to title, using independendly centred latex boxes.
-    titletxt = {
-        sprintf('\\makebox[4in][c]{%s}', titletxt)
-        sprintf('\\makebox[4in][c]{%s(%s)}', y_name{idx}, X_names{idx})};
+    
+    % Add second line to title.
+    titletxt = {titletxt
+        sprintf('%s(%s)', y_name{idx}, X_names{idx})};
     histogram(ax, e(:, idx), 'Normalization', 'probability');
-    ax.FontSize = 30;
-    ax.TickLabelInterpreter = 'latex';
-    title(ax, titletxt, 'Interpreter', 'latex', 'FontSize', 36);
-    xlabel(ax, sprintf('Residual %s', y_name{idx}),...
-        'Interpreter', 'latex', 'FontSize', 34);
-    ylabel(ax, 'Density', 'Interpreter', 'latex', 'FontSize', 34);
+    title(ax, titletxt);
+    xlabel(ax, sprintf('Residual %s', y_name{idx}));
+    ylabel(ax, 'Density');
     end
 end
