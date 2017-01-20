@@ -1,0 +1,88 @@
+%% Creator: Inkscape inkscape 0.91, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'Data.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{675.97315253bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.85715371)%
+    \put(0.04514963,0.46351563){\makebox(0,0)[lb]{\smash{\tiny10}}}%
+    \put(0.04514963,0.52584556){\makebox(0,0)[lb]{\smash{\tiny20}}}%
+    \put(0.04514963,0.58817537){\makebox(0,0)[lb]{\smash{\tiny30}}}%
+    \put(0.04514963,0.6505053){\makebox(0,0)[lb]{\smash{\tiny40}}}%
+    \put(0.04514963,0.71283524){\makebox(0,0)[lb]{\smash{\tiny50}}}%
+    \put(0.04514963,0.77516505){\makebox(0,0)[lb]{\smash{\tiny60}}}%
+    \put(0.04514963,0.83749498){\makebox(0,0)[lb]{\smash{\tiny70}}}%
+    \put(0.01674613,0.6167764){\rotatebox{90}{\makebox(0,0)[lb]{\smash{\footnotesize MPG}}}}%
+    \put(0.18979647,0.78850311){\makebox(0,0)[lb]{\smash{\footnotesize HP vs MPG}}}%
+    \put(0.61723231,0.78850311){\makebox(0,0)[lb]{\smash{\footnotesize WT vs MPG}}}%
+    \put(0.08519063,0.04712832){\makebox(0,0)[lb]{\smash{\tiny0}}}%
+    \put(0.17069699,0.04712832){\makebox(0,0)[lb]{\smash{\tiny100}}}%
+    \put(0.26567117,0.04712832){\makebox(0,0)[lb]{\smash{\tiny200}}}%
+    \put(0.36064536,0.04712832){\makebox(0,0)[lb]{\smash{\tiny300}}}%
+    \put(0.45561955,0.04712832){\makebox(0,0)[lb]{\smash{\tiny400}}}%
+    \put(0.26093749,0.00531199){\makebox(0,0)[lb]{\smash{\footnotesize HP}}}%
+    \put(0.03094789,0.06349974){\makebox(0,0)[lb]{\smash{\tiny0.01}}}%
+    \put(0.03094789,0.1167563){\makebox(0,0)[lb]{\smash{\tiny0.02}}}%
+    \put(0.03094789,0.17001285){\makebox(0,0)[lb]{\smash{\tiny0.03}}}%
+    \put(0.03094789,0.2232694){\makebox(0,0)[lb]{\smash{\tiny0.04}}}%
+    \put(0.03094789,0.27652595){\makebox(0,0)[lb]{\smash{\tiny0.05}}}%
+    \put(0.03094789,0.32978251){\makebox(0,0)[lb]{\smash{\tiny0.06}}}%
+    \put(0.03094789,0.38303906){\makebox(0,0)[lb]{\smash{\tiny0.07}}}%
+    \put(0.03094789,0.43629561){\makebox(0,0)[lb]{\smash{\tiny0.08}}}%
+    \put(0.01674613,0.21616865){\rotatebox{90}{\makebox(0,0)[lb]{\smash{\footnotesize GPM}}}}%
+    \put(0.18993517,0.38730376){\makebox(0,0)[lb]{\smash{\footnotesize HP vs GPM}}}%
+    \put(0.51005958,0.04712832){\makebox(0,0)[lb]{\smash{\tiny10}}}%
+    \put(0.58603893,0.04712832){\makebox(0,0)[lb]{\smash{\tiny20}}}%
+    \put(0.66201827,0.04712832){\makebox(0,0)[lb]{\smash{\tiny30}}}%
+    \put(0.73799762,0.04712832){\makebox(0,0)[lb]{\smash{\tiny40}}}%
+    \put(0.81397697,0.04712832){\makebox(0,0)[lb]{\smash{\tiny50}}}%
+    \put(0.88995632,0.04712832){\makebox(0,0)[lb]{\smash{\tiny60}}}%
+    \put(0.6840311,0.00531199){\makebox(0,0)[lb]{\smash{\footnotesize WT}}}%
+    \put(0.61737101,0.38730376){\makebox(0,0)[lb]{\smash{\footnotesize WT vs GPM}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{Data.pdf}}%
+  \end{picture}%
+\endgroup%

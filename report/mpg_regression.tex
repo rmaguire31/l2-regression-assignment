@@ -7,6 +7,7 @@
 \usepackage{titling}
 \usepackage{nomencl}
 \usepackage{booktabs}
+\usepackage{color}
 \usepackage[font={footnotesize}]{caption}
 \usepackage{graphicx}
 \usepackage[style=ieee,backend=bibtex]{biblatex}
@@ -116,8 +117,8 @@ better choice for the linear regression model used.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.42\textwidth]{MPG}
-    \includegraphics[width=0.42\textwidth]{GPM}
+    \def\svgwidth{0.5\textwidth}
+    \input{img/Data.pdf_tex}
     \caption{Scatter plots of variables in the dataset.}
     \label{fig:Data}
 \end{figure}
@@ -165,6 +166,8 @@ show that the best model explained \GPM as a function of \VOL, \HP, \SP and
 
 \begin{table*}
     \centering
+    \caption{Comparison of performance of models with different variables. 
+    \vspace{-\parsep}}
     \begin{tabular}{lllllll}
         \toprule
         $y$ & $x_1, x_2, ..., x_{p-1}$ & $p$ & $R^2$ & $R_{adj}^2$ & K-S Test & 
@@ -184,7 +187,6 @@ show that the best model explained \GPM as a function of \VOL, \HP, \SP and
         \GPM & \WT                 & 2 & 0.88116 & 0.87967 & Fail & 0.039028 \\
         \bottomrule
     \end{tabular}
-    \caption{Comparison of performance of models with different variables.}
     \label{table:Regression}
 \end{table*}
     
@@ -218,14 +220,17 @@ $R_{adj}^2$ value of 0.46738.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.42\textwidth]{Residuals}
+    \def\svgwidth{0.5\textwidth}
+    \input{img/Residuals.pdf_tex}
     \caption{Residuals for regressions with worst and best $R_{adj}^2$.}
     \label{fig:Residuals}
 \end{figure}
 
 The poorer performance of the more normal distribution could be explained by 
-the greater spread in residuals. The 1arge variance in the residuals suggests 
-the model is not a very accurate predictor of fuel consumption.
+the greater spread in residuals. The 1arge variance in the residuals explained 
+why the model is not a very accurate predictor of fuel consumption. The model 
+which explained \GPM as a function of \VOL, \HP, \SP, \WT was just more 
+accurate.
 
 % References.
 \printbibliography

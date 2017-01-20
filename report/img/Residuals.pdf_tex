@@ -1,0 +1,90 @@
+%% Creator: Inkscape inkscape 0.91, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'Residuals.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{700.15791816bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.49468797)%
+    \put(0.07787046,0.04457783){\makebox(0,0)[lb]{\smash{\tiny-20}}}%
+    \put(0.15122534,0.04457783){\makebox(0,0)[lb]{\smash{\tiny-10}}}%
+    \put(0.23200711,0.04457783){\makebox(0,0)[lb]{\smash{\tiny0}}}%
+    \put(0.30079159,0.04457783){\makebox(0,0)[lb]{\smash{\tiny10}}}%
+    \put(0.37414647,0.04457783){\makebox(0,0)[lb]{\smash{\tiny20}}}%
+    \put(0.44750135,0.04457783){\makebox(0,0)[lb]{\smash{\tiny30}}}%
+    \put(0.16013784,0.00877631){\makebox(0,0)[lb]{\smash{\footnotesize Residual MPG}}}%
+    \put(0.05349504,0.06952455){\makebox(0,0)[lb]{\smash{\tiny0}}}%
+    \put(0.03064305,0.12893972){\makebox(0,0)[lb]{\smash{\tiny0.05}}}%
+    \put(0.03978385,0.18835488){\makebox(0,0)[lb]{\smash{\tiny0.1}}}%
+    \put(0.03064305,0.24777005){\makebox(0,0)[lb]{\smash{\tiny0.15}}}%
+    \put(0.03978385,0.30718522){\makebox(0,0)[lb]{\smash{\tiny0.2}}}%
+    \put(0.03064305,0.36660039){\makebox(0,0)[lb]{\smash{\tiny0.25}}}%
+    \put(0.03978385,0.42601555){\makebox(0,0)[lb]{\smash{\tiny0.3}}}%
+    \put(0.01693186,0.19463941){\rotatebox{90}{\makebox(0,0)[lb]{\smash{\footnotesize Density}}}}%
+    \put(0.13785727,0.47543298){\makebox(0,0)[lb]{\smash{\footnotesize Worst Regression}}}%
+    \put(0.20184282,0.4434402){\makebox(0,0)[lb]{\smash{\footnotesize \MPG(\SP)}}}%
+    \put(0.51548602,0.04457783){\makebox(0,0)[lb]{\smash{\tiny-0.01}}}%
+    \put(0.5842705,0.04457783){\makebox(0,0)[lb]{\smash{\tiny-0.005}}}%
+    \put(0.67647827,0.04457783){\makebox(0,0)[lb]{\smash{\tiny0}}}%
+    \put(0.73326546,0.04457783){\makebox(0,0)[lb]{\smash{\tiny0.005}}}%
+    \put(0.81176203,0.04457783){\makebox(0,0)[lb]{\smash{\tiny0.01}}}%
+    \put(0.87997522,0.04457783){\makebox(0,0)[lb]{\smash{\tiny0.015}}}%
+    \put(0.60460888,0.00877631){\makebox(0,0)[lb]{\smash{\footnotesize Residual GPM}}}%
+    \put(0.4979662,0.06952455){\makebox(0,0)[lb]{\smash{\tiny0}}}%
+    \put(0.47511421,0.1091347){\makebox(0,0)[lb]{\smash{\tiny0.05}}}%
+    \put(0.484255,0.14874473){\makebox(0,0)[lb]{\smash{\tiny0.1}}}%
+    \put(0.47511421,0.18835488){\makebox(0,0)[lb]{\smash{\tiny0.15}}}%
+    \put(0.484255,0.22796503){\makebox(0,0)[lb]{\smash{\tiny0.2}}}%
+    \put(0.47511421,0.26757507){\makebox(0,0)[lb]{\smash{\tiny0.25}}}%
+    \put(0.484255,0.30718522){\makebox(0,0)[lb]{\smash{\tiny0.3}}}%
+    \put(0.47511421,0.34679537){\makebox(0,0)[lb]{\smash{\tiny0.35}}}%
+    \put(0.484255,0.3864054){\makebox(0,0)[lb]{\smash{\tiny0.4}}}%
+    \put(0.47511421,0.42601555){\makebox(0,0)[lb]{\smash{\tiny0.45}}}%
+    \put(0.59432616,0.47543298){\makebox(0,0)[lb]{\smash{\footnotesize Best Regression}}}%
+    \put(0.53148319,0.4434402){\makebox(0,0)[lb]{\smash{\footnotesize \GPM(\VOL, \HP, \SP, \WT)}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{Residuals.pdf}}%
+  \end{picture}%
+\endgroup%
